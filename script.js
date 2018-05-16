@@ -25,20 +25,30 @@ function showHang() {
 
 	setTimeout(() => {
 		var xhttp = new XMLHttpRequest();
-		number = 0;
 	  	xhttp.onreadystatechange = function() {
 		    if (this.readyState == 4 && this.status == 200) {
-		    	setInterval(() => {
-		    		number ++;
-		    		if (number < 10000) {
-		    			document.getElementById("show-hang").innerHTML += '<p>this.responseText</p>';
+    			// document.getElementById("show-hang").innerHTML = this.responseText;
+    			var arrData = JSON.parse('[' + this.responseText + ']');
+    			// document.getElementById("show-hang").innerHTML = '<div><p>' + myArr[0].id + '</p><p>' + myArr[0].name +  '</p><p>' + myArr[0].avatar +'</p><p>' + myArr[0].createdAt + '</p></div><hr>';
+		    	// finishLayHang = Date.now();
+		    	// console.log((finishLayHang - startLayHang));
+		    	// console.log('after', width);
+		    	page = 0;
+		    	index = 0;
+		    	totalPage = arrData.length;
+		    	perPage = 1;
+		    	var showHang = setInterval(() => {
+		    		for (let  i = 0; i < perPage; i++) {
+		    			console.log(index++);
+		    			itemIndex = page * perPage + i;
+		    			document.getElementById("show-hang").innerHTML += '<div><p>' + arrData[itemIndex].id + '</p><p>' + arrData[itemIndex].name + '</p></div><hr>';
 		    		}
-		    	}, 15)
-		    	
-		    	
-		    	finishLayHang = Date.now();
-		    	console.log((finishLayHang - startLayHang));
-		    	console.log('after', width);
+		    		page ++;
+
+		    		if (page === 200) {
+		    			clearInterval(showHang);
+		    		}
+		    	}, 20);
 		    }
 		};
 		xhttp.open("GET", "data.txt", true);
