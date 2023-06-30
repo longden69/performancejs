@@ -37,18 +37,23 @@ function showHang() {
 		    	index = 0;
 		    	totalPage = arrData.length;
 		    	perPage = 1;
-		    	var showHang = setInterval(() => {
-		    		for (let  i = 0; i < perPage; i++) {
-		    			console.log(index++);
-		    			itemIndex = page * perPage + i;
-		    			document.getElementById("show-hang").innerHTML += '<div><p>' + arrData[itemIndex].id + '</p><p>' + arrData[itemIndex].name + '</p></div><hr>';
-		    		}
-		    		page ++;
+					var html = [];
+					for (var i = 0; i < totalPage; i++) {
+						html.push('<div>Test ' + i + '</div>');
+					}
+					document.getElementById('show-hang').innerHTML = html.join('');
+		    	// var showHang = setInterval(() => {
+		    	// 	for (let  i = 0; i < perPage; i++) {
+		    	// 		console.log(index++);
+		    	// 		itemIndex = page * perPage + i;
+		    	// 		document.getElementById("show-hang").innerHTML += '<div><p>' + arrData[itemIndex].id + '</p><p>' + arrData[itemIndex].name + '</p></div><hr>';
+		    	// 	}
+		    	// 	page ++;
 
-		    		if (page === 200) {
-		    			clearInterval(showHang);
-		    		}
-		    	}, 20);
+		    	// 	if (page === 200) {
+		    	// 		clearInterval(showHang);
+		    	// 	}
+		    	// }, 20);
 		    }
 		};
 		xhttp.open("GET", "data.txt", true);
