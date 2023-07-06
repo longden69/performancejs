@@ -21,27 +21,42 @@ var cc = setInterval(() => {
 function showHang() {
 	startLayHang = Date.now()
 	console.log('before', width);
-	// console.log(startLayHang);
+
+
+	// Register WebWorker
+	var worker = new SharedWorker('basic-worker.js');
+	worker.port.onmessage = function(e) {
+		console.log('counter', e.data.counter);
+		console.log('yolo', e.data.yolo);
+		document.getElementById('show-hang').innerHTML = e.data.message;
+	};
 
 	setTimeout(() => {
 		var xhttp = new XMLHttpRequest();
 	  	xhttp.onreadystatechange = function() {
 		    if (this.readyState == 4 && this.status == 200) {
-    			// document.getElementById("show-hang").innerHTML = this.responseText;
+    			// getData
     			var arrData = JSON.parse('[' + this.responseText + ']');
-    			// document.getElementById("show-hang").innerHTML = '<div><p>' + myArr[0].id + '</p><p>' + myArr[0].name +  '</p><p>' + myArr[0].avatar +'</p><p>' + myArr[0].createdAt + '</p></div><hr>';
-		    	// finishLayHang = Date.now();
-		    	// console.log((finishLayHang - startLayHang));
-		    	// console.log('after', width);
-		    	page = 0;
-		    	index = 0;
-		    	totalPage = arrData.length;
-		    	perPage = 1;
-					var html = [];
-					for (var i = 0; i < totalPage; i++) {
-						html.push('<div>Test ' + i + '</div>');
-					}
-					document.getElementById('show-hang').innerHTML = html.join('');
+
+					// Solution: only use one append
+		    	// page = 0;
+		    	// index = 0;
+		    	// totalPage = arrData.length;
+		    	// perPage = 1;
+					// var html = [];
+					// for (var i = 0; i < totalPage; i++) {
+					// 	html.push('<div>' + arrData[i].name + '</div>');
+					// }
+					// document.getElementById('show-hang').innerHTML = html.join('');
+
+					// Using web worker
+					worker.port.postMessage(arrData);
+
+					// Bad solution fully queue
+					// page = 0;
+		    	// index = 0;
+		    	// totalPage = arrData.length;
+		    	// perPage = 1;
 		    	// var showHang = setInterval(() => {
 		    	// 	for (let  i = 0; i < perPage; i++) {
 		    	// 		console.log(index++);
@@ -54,6 +69,7 @@ function showHang() {
 		    	// 		clearInterval(showHang);
 		    	// 	}
 		    	// }, 20);
+					console.log('after', width);
 		    }
 		};
 		xhttp.open("GET", "data.txt", true);
