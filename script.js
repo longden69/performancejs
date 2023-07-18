@@ -24,11 +24,12 @@ function showHang() {
 
 
 	// Register WebWorker
-	var worker = new SharedWorker('basic-worker.js');
+	var worker = new SharedWorker('shared-worker.js');
 	worker.port.onmessage = function(e) {
 		console.log('counter', e.data.counter);
-		console.log('yolo', e.data.yolo);
-		document.getElementById('show-hang').innerHTML = e.data.message;
+		requestAnimationFrame(() => {
+			document.getElementById('show-hang').innerHTML = e.data.message;
+		});
 	};
 
 	setTimeout(() => {
@@ -50,25 +51,13 @@ function showHang() {
 					// document.getElementById('show-hang').innerHTML = html.join('');
 
 					// Using web worker
-					worker.port.postMessage(arrData);
+					// worker.port.postMessage(arrData);
 
 					// Bad solution fully queue
-					// page = 0;
-		    	// index = 0;
-		    	// totalPage = arrData.length;
-		    	// perPage = 1;
-		    	// var showHang = setInterval(() => {
-		    	// 	for (let  i = 0; i < perPage; i++) {
-		    	// 		console.log(index++);
-		    	// 		itemIndex = page * perPage + i;
-		    	// 		document.getElementById("show-hang").innerHTML += '<div><p>' + arrData[itemIndex].id + '</p><p>' + arrData[itemIndex].name + '</p></div><hr>';
-		    	// 	}
-		    	// 	page ++;
+					for (let  i = 0; i < arrData.length; i++) {
+						document.getElementById("show-hang").innerHTML += '<div><p>' + arrData[i].id + '</p><p>' + arrData[i].name + '</p></div><hr>';
+					}
 
-		    	// 	if (page === 200) {
-		    	// 		clearInterval(showHang);
-		    	// 	}
-		    	// }, 20);
 					console.log('after', width);
 		    }
 		};

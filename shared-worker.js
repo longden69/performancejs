@@ -1,19 +1,35 @@
 var counter = 0;
 var connections = [];
-// Define onconnect hanlder that triggers when "new SharedWorker()" is invoked
-onconnect = function(eConn) {
-  var port = eConn.ports[0]; // Unique port for this connection
 
-  // Let's tell all connected clients when we get a message
-  port.onmessage = function(eMsg) { 
-      counter++;
-      for (var i=0; i < connections.length; i++) {
-          connections[i].postMessage({
-              message: eMsg.data,
-              counter: counter
-          });
+onconnect = function(eConn) {
+  var port = eConn.ports[0];
+
+  port.onmessage = function(eMsg) {
+    console.log('test worker');
+    counter++;
+
+    for (var i=0; i < connections.length; i++) {
+      page = 0;
+      index = 0;
+      totalPage = eMsg.data.length;
+      perPage = 1;
+      // Solution
+      var html = [];
+      for (var i2 = 0; i2 < totalPage; i2++) {
+        html.push('<div>' + eMsg.data[i2].name + '</div>');
+        console.log(eMsg.data[i2].name);
       }
+
+      connections[i].postMessage({
+          message: html.join(''),
+          counter: counter,
+          yolo: 'hehe'
+      });
+    }
+
+    postMessage(html.join(''));
   }
+
   port.start();
-  connections.push(port);
+  connections.push(port)
 }
