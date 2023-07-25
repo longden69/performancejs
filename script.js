@@ -46,7 +46,7 @@ function showHang() {
 		    	// perPage = 1;
 					// var html = [];
 					// for (var i = 0; i < totalPage; i++) {
-					// 	html.push('<div>' + arrData[i].name + '</div>');
+						// html.push('<div>' + arrData[i].name + '</div>');
 					// }
 					// document.getElementById('show-hang').innerHTML = html.join('');
 
@@ -57,6 +57,22 @@ function showHang() {
 					for (let  i = 0; i < arrData.length; i++) {
 						document.getElementById("show-hang").innerHTML += '<div><p>' + arrData[i].id + '</p><p>' + arrData[i].name + '</p></div><hr>';
 					}
+					// Bad solution 2
+					// let page = 0;
+					// let index = 0;
+		    	// let totalPage = arrData.length;
+		    	// let perPage = 20;
+					// var showList = setInterval(() => {
+		    	// 	for (let  i = 0; i < perPage; i++) {
+		    	// 		console.log(index++);
+		    	// 		itemIndex = page * perPage + i;
+		    	// 		document.getElementById("show-hang").innerHTML += '<div><p>' + arrData[itemIndex].id + '</p><p>' + arrData[itemIndex].name + '</p></div><hr>';
+		    	// 	}
+		    	// 	page ++;
+					// 	if (page === 200) {
+		    	// 		clearInterval(showList);
+		    	// 	}
+		    	// }, 200);
 
 					console.log('after', width);
 		    }

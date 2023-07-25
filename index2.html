@@ -17,7 +17,7 @@ function startWorker() {
     w.onmessage = function(event) {
       document.getElementById("result").innerHTML = event.data;
     };
-    // w.postMessage("Tin nhắn này gửi đến worker")
+    w.postMessage("Tin nhắn này gửi đến worker")
   } else {
     document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
   }
